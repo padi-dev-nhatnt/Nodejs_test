@@ -1,3 +1,4 @@
+import { render } from 'ejs';
 import db from '../models/index'
 let getHomePage = async (req, res) => {
     try {
@@ -37,14 +38,28 @@ let Delete = (req, res ,next) =>{
 
 let post = (req, res ,next) =>{
     db.User.create(req.body)
-    
 }
 
 let getAboutPage = (req, res ,next) => {
     return res.render('test/about.ejs');
-    // return res.status(200).json({
-    //     message: req.body.id
-    // })
+    
+}
+
+let sua = (req, res, next) => {
+     db.User.update(
+        {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        address: req.body.address,
+        roleId: req.body.roleId
+        },
+        {
+          where: { id: req.params.id },
+        },
+        {raw : true}
+      );
+    
 }
 
 
@@ -58,5 +73,6 @@ module.exports = {
     getHomePage: getHomePage,
     getAboutPage: getAboutPage,
     post:post,
-    Delete:Delete
+    Delete:Delete,
+    sua:sua
 }
