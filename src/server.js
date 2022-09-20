@@ -7,7 +7,7 @@ const schema = require('./schema/schema');
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
-import db from './models'
+import db from './models/index'
 const sequelizeMethods = require('./controllers/sequelizeMethods');
 
 
@@ -26,9 +26,9 @@ viewEngine(app);
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: resolvers,
-  context:123,
-  graphiql: true, //sử dụng công cụ GraphiQL để đưa ra các query GraphQL theo cách thủ công
-}));
+  context:db
+}
+));
 
 // Khởi tạo server tại port 4000
 let port = process.env.PORT || 6969;
