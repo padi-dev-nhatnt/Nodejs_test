@@ -2,7 +2,9 @@ import db from '../models/index'
 
 
 const  sequelizeMethods= {
-    getAllUsers: async ()=> await  db.User.find()
+    getAllUsers: async ()=> {
+        return await  db.User.findAll()
+    }
 }
 
 module.exports = sequelizeMethods;

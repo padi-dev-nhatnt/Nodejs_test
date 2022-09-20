@@ -1,49 +1,36 @@
-import express from "express";
-import bodyParser from "body-parser";
+//Import các thư viện cần dùng
+var express = require('express');
+var { graphqlHTTP } = require('express-graphql');
+const schema = require('./schema/schema');
+ const resolvers= require( './resolver/resolver');
+ import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
-const { ApolloServer } = require('apollo-server-express')
-const cors = require('cors')
-
-var { graphqlHTTP } = require('express-graphql');
-var { buildSchema } = require('graphql');
-// const typeDefs = require('./schema/schema');
-// const resolvers = require('./resolver/resolver');
-
-//Load method
-
-// const sequelizeMethods = require('./controllers/sequelizeMethods');
-
-// Xây dựng một Schema, sử dụng ngôn ngữ Schema GraphQL
-
+import db from './models'
+const sequelizeMethods = require('./controllers/sequelizeMethods');
 
 
 require('dotenv').config();
-
-let app = express();
-
-//config app
-
+//Tạo server với express
+var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json());
-
-viewEngine(app);
-initWebRoutes(app);
-
 //connect Database
-
 connectDB();
+viewEngine(app);
+//initWebRoutes(app);
 
-// const server = new ApolloServer({
-// 	typeDefs,
-// 	resolvers,
-// 	context: () => ({ sequelizeMethods })
-// })
-app.use(cors())
+//Khai báo API graphql
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: resolvers,
+  context:123,
+  graphiql: true, //sử dụng công cụ GraphiQL để đưa ra các query GraphQL theo cách thủ công
+}));
 
-// server.applyMiddleware({app})
+// Khởi tạo server tại port 4000
 let port = process.env.PORT || 6969;
 //Port === undefined => port = 6969
 

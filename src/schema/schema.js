@@ -1,15 +1,18 @@
-const {gql} = require('apollo-server-express')
+var { buildSchema } = require('graphql');
 
-const typeDeft = gql`
+var schema = buildSchema (`
   type User {
+    id: ID!
     firstName: String
     lastName:String
     email:String
+    address:String
+    roleid: String
   }
-  #Root type
-    type Query{
-        Users:[User]
-    }  
-`
+  type Query {
+    Users: [User]
+    Userm(id: ID!) : User
+  }  
+`);
 
-module.exports=typeDeft;
+module.exports = schema;
