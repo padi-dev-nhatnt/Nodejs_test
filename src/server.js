@@ -1,13 +1,14 @@
 //Import các thư viện cần dùng
 var express = require('express');
 var { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema/schema');
- const resolvers= require( './resolver/resolver');
- import bodyParser from "body-parser";
+const typeDefs = require('./schema/schema');
+const resolvers= require( './resolver/resolver');
+import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
 import db from './models/index'
+const {makeExecutableSchema} = require ('@graphql-tools/schema')
 const sequelizeMethods = require('./controllers/sequelizeMethods');
 
 
@@ -21,12 +22,15 @@ app.use(express.json());
 connectDB();
 viewEngine(app);
 //initWebRoutes(app);
-
+const executableSchema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 //Khai báo API graphql
 app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: resolvers,
-  context:db
+  schema: executableSchema,
+  context:db,
+  graphiql: true,
 }
 ));
 
