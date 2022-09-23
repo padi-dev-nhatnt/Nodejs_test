@@ -25,6 +25,18 @@ const resolvers = {
             const a =await context.User.findByPk(args.id)
             return a
         },
+
+        Authorm: async (parent,args,context) => 
+        {
+            const a =await context.Author.findByPk(args.id)
+            return a
+        },
+
+        Bookm: async (parent,args,context) => 
+        {
+            const a =await context.Book.findByPk(args.id)
+            return a
+        },
     },
     Mutation:
     {

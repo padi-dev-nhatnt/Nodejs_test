@@ -50,6 +50,10 @@ var typeDefs = `
     getAuthor:Book
     Authors:[Author]
     Books:[Book]
+
+    Authorm(id: ID!):Author
+    Bookm(id: ID!):Book
+
     Users: [User]
     Userm(id: ID!) : User
     getAuthorBook:Author
