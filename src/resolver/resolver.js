@@ -1,4 +1,5 @@
-//import db from '../models/index'
+
+import db from '../models/index'
 const resolvers = {
     Query:{
         Authors: async (parent,args,context) =>
@@ -19,7 +20,6 @@ const resolvers = {
            return a
         
         },
-    
         Userm: async (parent,args,context) => 
         {
             const a =await context.User.findByPk(args.id)
@@ -67,7 +67,10 @@ const resolvers = {
         } ,
 
 
-        deleteUser: async (parent,{id},context) =>  context.User.destroy({where:{ id: id }}),
+        deleteUser: async (parent,{id},context) =>  {
+            context.User.destroy({where:{ id: id }})
+            return context.User.findByPk(id)
+        },
 
         //Book
         createBook: async (parent,{input},context) => {
@@ -78,8 +81,6 @@ const resolvers = {
         },
 
         updateBook: async (parent,{id,input},context) => {
-
-            
              await context.Book.update(
                  {
                     nameBook:  input.nameBook,
@@ -91,11 +92,13 @@ const resolvers = {
                  where: { id: id },
                 }
               );
-
         } ,
 
 
-        deleteBook: async (parent,{id},context) =>  context.Book.destroy({where:{ id: id }}),
+        deleteBook: async (parent,{id},context) =>  {
+            context.Book.destroy({where:{ id: id }})
+            return context.Book.findByPk(id)
+        },
 
         //Author
 
@@ -122,7 +125,11 @@ const resolvers = {
         } ,
 
 
-        deleteAuthor: async (parent,{id},context) =>  context.Author.destroy({where:{ id: id }}),
+        deleteAuthor: async (parent,{id},context) =>  
+        {
+            context.Author.destroy({where:{ id: id }})
+            return context.Author.findByPk(id)
+        }
     },
 
     Book:{
@@ -145,5 +152,7 @@ const resolvers = {
 
     
 }
+
+
 
 module.exports = resolvers;

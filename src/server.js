@@ -9,8 +9,7 @@ import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
 import db from './models/index'
 const {makeExecutableSchema} = require ('@graphql-tools/schema')
-const sequelizeMethods = require('./controllers/sequelizeMethods');
-
+import Promise from 'bluebird';
 
 require('dotenv').config();
 //Tạo server với express
@@ -20,6 +19,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json());
 //connect Database
 connectDB();
+
+
+
+
+
 viewEngine(app);
 //initWebRoutes(app);
 const executableSchema = makeExecutableSchema({

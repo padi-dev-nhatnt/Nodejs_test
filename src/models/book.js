@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     nameBook: DataTypes.STRING,
     namSX: DataTypes.STRING,
     nhaXuatBan: DataTypes.STRING,
-    tacGia: DataTypes.INTEGER,
+    tacGia: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
   }, {
     sequelize,
     modelName: 'Book',
